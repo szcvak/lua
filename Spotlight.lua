@@ -88,7 +88,7 @@ end
 
 function Spotlight:Show()
 	self.Entry.Text = ""
-	self.Container.Position = UDim2.new(0, Mouse.X + 10, 0, Mouse.Y + 10)
+	self.Container.Position = UDim2.new(0, Mouse.X + 12.5, 0, Mouse.Y)
 	self.Container.Visible = true
 	self.Entry:CaptureFocus()
 end
