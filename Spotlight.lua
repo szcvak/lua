@@ -37,6 +37,7 @@ function Spotlight.new(parent: any)
 	self.Container.Position = UDim2.new(0.0565871708, 0, 0.963343084, -30)
 	self.Container.Size = UDim2.new(0.199498117, 0, 0, 30)
 	self.Container.AutomaticSize = Enum.AutomaticSize.XY
+	self.Container.Visible = false
 
 	self.ContainerCorner.Name = "ContainerCorner"
 	self.ContainerCorner.Parent = self.Container
@@ -88,7 +89,21 @@ end
 
 function Spotlight:Show()
 	self.Entry.Text = ""
+
+	local Viewport = workspace.CurrentCamera.ViewportSize
 	self.Container.Position = UDim2.new(0, Mouse.X + 12.5, 0, Mouse.Y)
+
+	local Magnitude = self.Container.AbsoluteSize.X + self.Container.AbsolutePosition.X
+
+	if Magnitude > Viewport.X then
+		self.Container.Position = UDim2.new(
+			0,
+			self.Container.AbsolutePosition.X - (Magnitude - Viewport.X),
+			0,
+			self.Container.AbsolutePosition.Y
+		)
+	end
+
 	self.Container.Visible = true
 	self.Entry:CaptureFocus()
 end
