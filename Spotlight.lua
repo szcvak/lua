@@ -1,9 +1,14 @@
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
 
 --
 
 local Spotlight = { }
 Spotlight.__index = Spotlight
+
+repeat
+	task.wait()
+until Players.LocalPlayer
 
 local Lp = Players.LocalPlayer
 local Mouse = Lp:GetMouse()
@@ -88,7 +93,17 @@ end
 
 function Spotlight:Show()
 	self.Entry.Text = ""
-	self.Container.Position = UDim2.new(0, Mouse.X + 12.5, 0, Mouse.Y)
+	
+	local viewport = workspace.CurrentCamera.ViewportSize
+	local fs = self.Container.AbsoluteSize
+	local pos = Vector2.new(UserInputService:GetMouseLocation().X + 12.5, UserInputService:GetMouseLocation().Y)
+
+	if pos.X + fs.X > viewport.X then
+		self.Container.Position = UDim2.new(0, pos.X - fs.X, 0, pos.Y)
+	elseif pos.Y + fs.Y > viewport.Y then
+		self.Container.Position = UDim2.new(0, pos.X, 0, pos.Y - fs.Y)
+	end
+
 	self.Container.Visible = true
 	self.Entry:CaptureFocus()
 end
